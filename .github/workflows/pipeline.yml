@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  bulind_unit_tests:
+  build_unit_tests:
 
     runs-on: ubuntu-latest
 
@@ -26,10 +26,10 @@ jobs:
     - name: Display SoftUni username
       run: echo "Martin_Iliev"
 
-  bulind_UI_tests:
+  build_UI_tests:
 
     runs-on: ubuntu-latest
-    needs: bulind_unit_tests
+    needs: build_unit_tests
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -46,3 +46,14 @@ jobs:
         run: npm start &
       - name: Run the UI tests
         run: npm run test:unit
+  deploy:
+      runs-on: ubuntu-latest
+      needs:  build_UI_tests
+    
+      steps:
+         - name: Deploy to production
+           uses: JorgeLnJunior/render-deploy@v1.4.4
+           with:
+             service_id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+             api_key: ${{ secrets.MY_RENDER_API_KEY }}
+             wait_deploy: true
