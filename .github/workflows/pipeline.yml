@@ -7,14 +7,13 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  bulind_unit_tests:
 
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v4
-      
     - name: Use Node.js 20.x
       uses: actions/setup-node@v4
       with:
@@ -22,9 +21,7 @@ jobs:
         cache: 'npm'
     - name: Install NPM dependencies
       run: npm install
-      
     - name: Run the UNIT tests
       run: npm run test:unit
-      
     - name: Display SoftUni username
       run: echo "Martin_Iliev"
